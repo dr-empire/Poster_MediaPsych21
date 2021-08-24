@@ -1,0 +1,284 @@
+---
+title: Consequences of Sexism in Political Discussions Online
+author:
+  - name: Sabine Reich
+    affil: 1
+    twitter: Malarija
+    email: sabine.reich@ijk.hmtm-hannover.de
+    orcid: 0000-0002-9474-3635
+    main: true
+  - name: Marko Bachl
+    affil: 2
+    twitter: Bachl
+    email: marko.bachl@uni-hohenheim.de
+    orcid: 0000-0001-5852-4948
+    main: true
+affiliation:
+  - num: 1
+    address: Institute for Journalism and Communication Research, Hanover University of Music, Drama, and Media
+  - num: 2
+    address: Department of Communication, University of Hohenheim
+main_textsize: 120px
+title_textsize: 100px
+body_textsize: 32px
+authorextra_textsize: 35px
+reference_textsize: 16px
+column_padding: 10mm
+primary_colour: "#E52E7F" 
+secondary_colour: "#7F7F7F" 
+accent_colour: "#D5106A"
+main_width: 0.5
+main_findings:
+  - '![](/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/badges.png){.main_pic}'
+  - "**Sexism** had no effect on participation in political discussions online or expected sanctions. Accounts of **online harassment** are higher among **younger** and **female** German onliners."
+logoleft_name: '![](/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/QR.png){.main-img-left}'
+logoright_name: '![](https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png){.main-img-right}'
+output: 
+  posterdown::posterdown_betterland:
+    self_contained: false
+    pandoc_args: --mathjax
+    highlight: haddock
+    number_sections: false
+link-citations: false
+csl: "apa.csl"
+bibliography: "references.bib"
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(results = 'asis',
+                      echo = FALSE,
+                      warning = FALSE,
+                      tidy = FALSE,
+                      message = FALSE,
+                      fig.align = 'center',
+                      out.width = "100%")
+options(knitr.table.format = "html") 
+```
+
+```{r myplot, include=FALSE}
+#svg('myplot.svg')
+#plot(iris$Sepal.Length, iris$Sepal.Width)
+#dev.off()
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+pacman::p_load(devtools)
+#devtools::install_github("crsh/papaja")
+#remotes::install_github('brentthorne/posterdown')
+pacman::p_load(papaja, broom, ggstance, haven, sjPlot, here, tidyverse, BiocManager)
+
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(1383)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+
+# Function to test simple slopes
+simple_slope = function(.model, alpha = 0.05) {
+  tibble(b1 = coef(.model)["attack"],
+       b3 = coef(.model)["pa_female:attack"],
+       Z = c(-0.5, 0.5),
+       theta = b1 + Z * b3,
+       se_b1 = coef(summary(.model))["attack", 2],
+       COV_b1b3 = vcov(.model)["attack", "pa_female:attack"],
+       se_b3 = coef(summary(.model))["pa_female:attack", 2],
+       se_theta = sqrt(se_b1^2 + 2 * Z * COV_b1b3 + Z^2 * se_b3^2),
+       ci.lo_theta = theta+qt(alpha/2, df.residual(.model))*se_theta,
+       ci.hi_theta = theta+qt(1-alpha/2, df.residual(.model))*se_theta,
+       t_theta = theta / se_theta,
+       p_theta = pt(abs(t_theta), df = df.residual(.model), lower.tail = FALSE) * 2,
+       p_theta_onetailed = p_theta / 2
+  ) %>% 
+    select(pa_gender = Z, estimate = theta, std.error = se_theta, statistic = t_theta, p.twotailed = p_theta, p.onetailed = p_theta_onetailed, conf.low = ci.lo_theta, conf.high = ci.hi_theta) %>% 
+    mutate(pa_gender = factor(pa_gender, labels = c("male", "female")))
+}
+```
+
+```{r data, include=FALSE}
+d = read_sav("/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/D-P20-11644 - Stufe 2.sav")
+d = d %>% 
+  mutate(v_51_r = v_51 * -1 + 8,
+         v_66_r = v_66 * -1 + 8) %>% 
+  mutate(gender = if_else(v_11 > 2, NA_integer_, as.integer(v_11)),
+         DV_expected_sanctions = rowMeans(select(., num_range(prefix = "v_", range = 37:45))),
+         DV_perceived_competence = rowMeans(select(., num_range(prefix = "v_", range = 46:49), v_51_r)),
+         DV_perceived_competence = 8 - DV_perceived_competence,
+         DV_solidarity_post = rowMeans(select(., num_range(prefix = "v_", range = 52:54))),
+         DV_solidarity_pre = rowMeans(select(., num_range(prefix = "v_", range = 19:21))),
+         DV_solidarity_pre = if_else(v_11 == 1, NA_real_, DV_solidarity_pre),
+         DV_solidarity_dif = DV_solidarity_post - DV_solidarity_pre,
+         treatment_check1 = rowMeans(select(., num_range(prefix = "v_", range = 55:58))),
+         treatment_check2 = rowMeans(select(., num_range(prefix = "v_", range = 59:65), v_66_r)))
+d = d %>% 
+  mutate(pa_female = factor(gender, labels = c("Male", "Female")),
+         attack = factor(c_0031, labels = c("Control", "Sexist attacks")))
+contrasts(d$pa_female) = contrasts(d$pa_female) - 0.5
+contrasts(d$attack) = contrasts(d$attack) - 0.5
+colnames(contrasts(d$pa_female)) = ""
+colnames(contrasts(d$attack)) = ""
+theme_set(theme_bw())
+```
+
+# Objective
+
+Female politicians [@rheault_politicians_2019] and journalists [@gardiner_its_2018] become the target of online incivility more frequently compared to their male colleagues and women report negative reactions to sharing political opinions online [@koc-michalska_online_2019; @sobieraj_bitch_2018; @vochocova_witty_2018]. In a `preregistered experiment` we investigate how incivility through sexist user commentary against women affects the willingness of political expression in online environments for women compared to men. Based on the `theory of normative social behavior` [@rimal_how_2005], we assume that sexist comments in online environments help to establish `descriptive norms` and the `injunctive norms` of the online culture by suggesting that women have to expect consequences when voicing their opinions.
+
+We predicted that reading sexist comments (vs. benign comments) in political discussions online decreases women’s likelihood to participate `(H1a)` and to share their own opinion `(H1b)` and the decrease is larger for women than for men, further increases the expected sanctions for women and the increase is larger for women compared to men `(H2)`, decreases the perceived competence for women but not for men `(H3)`.
+
+# Methods
+
+To test the hypothesis we designed a 2 (sexist vs. benign comment) X 2 (self-reported binary gender) `online (quasi-)experiment`. A quota-sample (gender, age, and education) of the German online population was recruited (*N* = 750, *M* = 44.6, *SD* = 14.3, 50% female) by a commercial online access panel. We estimated `a priori power` at 76% for small (*d* = 0.2) and at 99.99% for medium effects (*d* = 0.5).
+
+```{r, include=FALSE}
+#To reference a citation you can add your `.bib` file to the working directory and name it in the YAML metadata or generate an automated one as done here, then you only need to reference the label value in the `.bib` file. For example this package is built on top of the wonderful {pagedown} package and I will cite it at the end of this sentance using this in the rmd `[@R-pagedown]` [@R-pagedown]
+
+#To get a better understanding of how to include features like these please refer to the {posterdown} [wiki](https://github.com/posterdown/wiki).
+```
+
+# Results
+
+## Treatment checks
+
+```{r, fig.cap="Treatment checks", fig.width=2, fig.height=2, fig.ncol=2, figures-side, fig.show="hold", out.width="50%", include=TRUE}
+m_tc1 = lm(treatment_check1 ~ pa_female * attack, data = d)
+m_tc1_apa = m_tc1 %>% apa_print()
+m_tc2 = lm(treatment_check2 ~ pa_female * attack, data = d)
+m_tc2_apa = m_tc2 %>% apa_print()
+
+m_tc1 %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Recognition of attacks"), show.legend = TRUE, line.size = 0.25, dot.size = 1) + theme(legend.position = "bottom", text = element_text(size = 8), legend.spacing.x = unit(0, "mm"), legend.box.spacing = unit(0, "mm"))
+
+m_tc2 %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Recognition of hostile climate"), show.legend = TRUE, line.size = 0.25, dot.size = 1) + theme(legend.position = "bottom", text = element_text(size = 8), legend.spacing.x = unit(0, "mm"), legend.box.spacing = unit(0, "mm"))
+
+#Both predictors were effect-coded before the analysis.
+#Main effect of sexist attack: `r m_tc1_apa$full_result$attack`.  
+#Main effect of participant gender (female): `r m_tc1_apa$full_result$pa_female`.
+#Interaction effect: `r m_tc1_apa$full_result$pa_female_attack`.
+#Overall model fit: `r m_tc1_apa$full_result$modelfit$r2`.
+
+#{r, fig.cap="Treatment check 2: Recognition of hostile climate against women", fig.width=3, fig.height=2, include=FALSE}
+
+
+#Both predictors were effect-coded before the analysis.
+#Main effect of sexist attack: `r m_tc2_apa$full_result$attack`.
+#Main effect of participant gender (female): `r m_tc2_apa$full_result$pa_female`.
+#Interaction effect: `r m_tc2_apa$full_result$pa_female_attack`.
+#Overall model fit: `r m_tc2_apa$full_result$modelfit$r2`.
+
+#We included two sucessful treatments checks both showing that #participants recognized the attack on women (`r #m_tc1_apa$full_result$attack`, `r m_tc1_apa$full_result$modelfit$r2`) #and perceived a worsening of the discussion climate (`r #m_tc2_apa$full_result$attack`, `r m_tc2_apa$full_result$modelfit$r2`)
+```
+
+## Hypotheses tests
+
+```{r, fig.cap="H1a: Likelihood of participation", fig.width=3, fig.height=2, include=FALSE}
+m_h1a = lm(v_34 ~ pa_female * attack, data = zap_labels(d))
+m_h1a_apa = m_h1a %>% apa_print()
+m_h1a %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Likelihood of participation"), legend.title = "", line.size = 0.25, dot.size = 1) + theme(text = element_text(size = 7))
+#Both predictors were effect-coded before the analysis.
+#Main effect of sexist attack: `r m_h1a_apa$full_result$attack`.
+#Main effect of participant gender (female): `r m_h1a_apa$full_result$pa_female`.
+#Interaction effect: `r m_h1a_apa$full_result$pa_female_attack`.
+#Overall model fit: `r m_h1a_apa$full_result$modelfit$r2`.
+```
+
+```{r, fig.cap="H1b: Likelihood of opinion expression", fig.width=3, fig.height=2, include=FALSE}
+m_h1b = lm(v_35 ~ pa_female * attack, data = zap_labels(d))
+m_h1b_apa = m_h1b %>% apa_print()
+m_h1b %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Likelihood of expression"), legend.title = "", line.size = 0.25, dot.size = 1) + theme(text = element_text(size = 6))
+#Both predictors were effect-coded before the analysis.
+#Main effect of sexist attack: `r m_h1b_apa$full_result$attack`.
+#Main effect of participant gender (female): `r m_h1b_apa$full_result$pa_female`.
+#Interaction effect: `r m_h1b_apa$full_result$pa_female_attack`.
+#Overall model fit: `r m_h1b_apa$full_result$modelfit$r2`.
+```
+
+**H1a** (`r m_h1a_apa$full_result$modelfit$r2`) and **H1b** (`r m_h1b_apa$full_result$modelfit$r2`) were `not supported` by our data.
+
+```{r, fig.cap="H2: Expected sanctions", fig.dim = c(3, 2), fig.align = "center", out.width="80%", out.hight="80%", include=TRUE}
+m_h2 = lm(DV_expected_sanctions ~ pa_female * attack, data = zap_labels(d))
+m_h2_apa = m_h2 %>% apa_print()
+m_h2 %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Expected sanctions"), show.legend = TRUE, line.size = 0.50, dot.size = 1) + theme(text = element_text(size = 6), legend.spacing.y = unit(0, "mm"), legend.text = element_text(size = 4)) 
+```
+
+**H2** was `not supported` by our data, although we saw an expected main effect of the sexist attack (`r m_h2_apa$full_result$attack`, `r m_h2_apa$full_result$modelfit$r2`).
+
+```{r, fig.cap="H3: Perceived competence", fig.width=3, fig.height=2, include=FALSE}
+m_h3 = lm(DV_perceived_competence ~ pa_female * attack, data = zap_labels(d))
+m_h3_apa = m_h3 %>% apa_print()
+m_h3 %>% 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Perceived competence"), legend.title = "", line.size = 0.25, dot.size = 1) + theme(text = element_text(size = 6))
+#Both predictors were effect-coded before the analysis.
+#Main effect of sexist attack: `r m_h3_apa$full_result$attack`.
+#Main effect of participant gender (female): `r m_h3_apa$full_result$pa_female`.
+#Interaction effect: `r m_h3_apa$full_result$pa_female_attack`.
+#Overall model fit: `r m_h3_apa$full_result$modelfit$r2`.
+```
+
+**H3** was `not supported` by our data (`r m_h3_apa$full_result$modelfit$r2`).
+
+## Exploration of hostile experiences by age and sex
+```{r, fig.cap="Prevalence of hostile behaviors experienced and observed", fig.width=7, fig.height=6}
+  # Experiences with hostile online behaviors
+  # labels
+hostility_labels = d %>% 
+    select(num_range("v_", 74:82)) %>% 
+    map_chr(~attributes(.x)$label) %>% 
+    str_sub(start = 31) %>% 
+    str_remove(regex("\\(([^)]*)\\)")) %>% 
+    str_trim()
+  hostility_labels = c("Sustained harassment", "Purposeful embarrassment", "Physical threats", "Sexual harassment", "Explaining", "Denial of competence", "Redicule/laugh at someone", "Objectification", "Neither")
+  
+lp = d %>% 
+    mutate(age = as_factor(v_10),
+           sex = as_factor(v_11)) %>% 
+    select(num_range("v_", 74:82), age, sex) %>% 
+    gather(key, value, -age, -sex) %>% 
+    group_by(key, age, sex) %>% 
+    summarise(s = sum(value), n = n()) %>%
+    rowwise() %>% 
+    mutate(est = list(tidy(binom.test(s, n)))) %>% 
+    ungroup() %>% 
+    unnest_wider(est) %>%
+    mutate(key = factor(key, labels = hostility_labels)) %>%
+    bind_rows(
+      d %>% 
+    mutate(age = as_factor(v_10),
+           sex = as_factor(v_11)) %>% 
+    select(num_range("v_", 90:98), age, sex) %>% 
+    gather(key, value, -age, -sex) %>% 
+    group_by(key, age, sex) %>% 
+    summarise(s = sum(value), n = n()) %>%
+    rowwise() %>% 
+    mutate(est = list(tidy(binom.test(s, n)))) %>% 
+    ungroup() %>% 
+    unnest_wider(est) %>% 
+    mutate(key = factor(key, labels = hostility_labels))
+    , .id = "what") %>% 
+    mutate(key = reorder(key, estimate, mean),
+           key = relevel(key, ref = "Neither"),
+           what = factor(what, labels = c("Experienced", "Observed")),
+           sex1 = factor(sex, labels = c("Male", "Female")))%>%
+    ggplot(aes(estimate, key, xmin = conf.low, xmax = conf.high, colour = age)) + geom_pointrangeh(position = position_dodgev(height = -.5)) + facet_grid(what ~ sex1) + labs(x = "Prevalence (% and 95% CI)", y = NULL) + theme(legend.position = "bottom") + theme(text = element_text(size = 15)) + theme(legend.direction = "horizontal", legend.justification = "center", legend.spacing.x = unit(0, "mm"), legend.text = element_text(size = 10), legend.title = element_text(size = 10))
+
+
+  lp + scale_color_discrete(name ="Age in years", labels=c("18 to 29", "30 to 39", "40 to 49", "50 to 59", "60 to 69")) 
+```
+
+We preregistered a general survey of the prevalence and found that the experiences of women differ from men's and that especially the younger population notices online harassment. 
+
+# Summary
+Our study shows that questioning the competence of a female researcher in online discussions of a news report does not suffice to negatively impact the perceived discussion climate. The threshold of incivility and sexism in online discussions is rather high. The discussion climate in this study was not perceived as hostile above the scale midpoint (*M* =  4.01, *SD* =  1.23, 7-point scale). Furthermore, participation in the comment sections of legacy news media remains low, regardless of gender (*Mdn* = 2), potentially limiting our study’s ability to find effects of sexism on the willingness to disclose in these settings. 
+
+# References
+```{r create_r-references}
+#r_refs(file = "/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/ref.bib")
+```
+
+ 
