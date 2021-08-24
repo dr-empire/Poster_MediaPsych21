@@ -21,7 +21,7 @@ affiliation:
 main_textsize: 120px
 title_textsize: 100px
 body_textsize: 32px
-authorextra_textsize: 35px
+authorextra_textsize: 40px
 reference_textsize: 16px
 column_padding: 10mm
 primary_colour: "#E52E7F" 
