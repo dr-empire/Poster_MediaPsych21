@@ -24,14 +24,14 @@ body_textsize: 32px
 authorextra_textsize: 40px
 reference_textsize: 16px
 column_padding: 10mm
-primary_colour: "#E52E7F" 
-secondary_colour: "#7F7F7F" 
+primary_colour: "#E52E7F"
+secondary_colour: "#7F7F7F"
 accent_colour: "#D5106A"
 main_width: 0.5
 main_findings:
-  - '![](/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/badges.png){.main_pic}'
+  - '![](/poster_mediapsych21_files/badges.png){.main_pic}'
   - "**Sexism** had no effect on participation in political discussions online or expected sanctions. Accounts of **online harassment** are higher among **younger** and **female** German onliners."
-logoleft_name: '![](/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/QR.png){.main-img-left}'
+logoleft_name: '![](/poster_mediapsych21_files/QR.png){.main-img-left}'
 logoright_name: '![](https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png){.main-img-right}'
 output: 
   posterdown::posterdown_betterland:
@@ -55,18 +55,12 @@ knitr::opts_chunk$set(results = 'asis',
 options(knitr.table.format = "html") 
 ```
 
-```{r myplot, include=FALSE}
-#svg('myplot.svg')
-#plot(iris$Sepal.Length, iris$Sepal.Width)
-#dev.off()
-```
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 pacman::p_load(devtools)
-#devtools::install_github("crsh/papaja")
-#remotes::install_github('brentthorne/posterdown')
+devtools::install_github("crsh/papaja")
+remotes::install_github('brentthorne/posterdown')
 pacman::p_load(papaja, broom, ggstance, haven, sjPlot, here, tidyverse, BiocManager)
 
 ```
@@ -98,7 +92,7 @@ simple_slope = function(.model, alpha = 0.05) {
 ```
 
 ```{r data, include=FALSE}
-d = read_sav("/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/D-P20-11644 - Stufe 2.sav")
+d = read_sav("d.sav")
 d = d %>% 
   mutate(v_51_r = v_51 * -1 + 8,
          v_66_r = v_66 * -1 + 8) %>% 
@@ -131,12 +125,6 @@ We predicted that reading sexist comments (vs. benign comments) in political dis
 # Methods
 
 To test the hypothesis we designed a 2 (sexist vs. benign comment) X 2 (self-reported binary gender) `online (quasi-)experiment`. A quota-sample (gender, age, and education) of the German online population was recruited (*N* = 750, *M* = 44.6, *SD* = 14.3, 50% female) by a commercial online access panel. We estimated `a priori power` at 76% for small (*d* = 0.2) and at 99.99% for medium effects (*d* = 0.5).
-
-```{r, include=FALSE}
-#To reference a citation you can add your `.bib` file to the working directory and name it in the YAML metadata or generate an automated one as done here, then you only need to reference the label value in the `.bib` file. For example this package is built on top of the wonderful {pagedown} package and I will cite it at the end of this sentance using this in the rmd `[@R-pagedown]` [@R-pagedown]
-
-#To get a better understanding of how to include features like these please refer to the {posterdown} [wiki](https://github.com/posterdown/wiki).
-```
 
 # Results
 
@@ -190,7 +178,7 @@ m_h1a %>%
 m_h1b = lm(v_35 ~ pa_female * attack, data = zap_labels(d))
 m_h1b_apa = m_h1b %>% apa_print()
 m_h1b %>% 
-  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Likelihood of expression"), legend.title = "", line.size = 0.25, dot.size = 1) + theme(text = element_text(size = 6))
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Likelihood of expression"), legend.title = "", line.size = 0.25, dot.size = 1) + theme(text = element_text(size = 8))
 #Both predictors were effect-coded before the analysis.
 #Main effect of sexist attack: `r m_h1b_apa$full_result$attack`.
 #Main effect of participant gender (female): `r m_h1b_apa$full_result$pa_female`.
@@ -204,7 +192,7 @@ m_h1b %>%
 m_h2 = lm(DV_expected_sanctions ~ pa_female * attack, data = zap_labels(d))
 m_h2_apa = m_h2 %>% apa_print()
 m_h2 %>% 
-  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Expected sanctions"), show.legend = TRUE, line.size = 0.50, dot.size = 1) + theme(text = element_text(size = 6), legend.spacing.y = unit(0, "mm"), legend.text = element_text(size = 4)) 
+  plot_model(type = "int", title = "", axis.title = c("Participant gender", "Expected sanctions"), show.legend = TRUE, line.size = 0.50, dot.size = 1) + theme(text = element_text(size = 8), legend.spacing.y = unit(0, "mm"))
 ```
 
 **H2** was `not supported` by our data, although we saw an expected main effect of the sexist attack (`r m_h2_apa$full_result$attack`, `r m_h2_apa$full_result$modelfit$r2`).
@@ -265,7 +253,7 @@ lp = d %>%
            key = relevel(key, ref = "Neither"),
            what = factor(what, labels = c("Experienced", "Observed")),
            sex1 = factor(sex, labels = c("Male", "Female")))%>%
-    ggplot(aes(estimate, key, xmin = conf.low, xmax = conf.high, colour = age)) + geom_pointrangeh(position = position_dodgev(height = -.5)) + facet_grid(what ~ sex1) + labs(x = "Prevalence (% and 95% CI)", y = NULL) + theme(legend.position = "bottom") + theme(text = element_text(size = 15)) + theme(legend.direction = "horizontal", legend.justification = "center", legend.spacing.x = unit(0, "mm"), legend.text = element_text(size = 10), legend.title = element_text(size = 10))
+    ggplot(aes(estimate, key, xmin = conf.low, xmax = conf.high, colour = age)) + geom_pointrangeh(position = position_dodgev(height = -.5)) + facet_grid(what ~ sex1) + labs(x = "Prevalence (% and 95% CI)", y = NULL) + theme(legend.position = "bottom") + theme(text = element_text(size = 15)) + theme(legend.direction = "horizontal", legend.justification = "center", legend.spacing.x = unit(0, "mm"), legend.text = element_text(size = 12), legend.title = element_text(size = 11))
 
 
   lp + scale_color_discrete(name ="Age in years", labels=c("18 to 29", "30 to 39", "40 to 49", "50 to 59", "60 to 69")) 
@@ -277,8 +265,6 @@ We preregistered a general survey of the prevalence and found that the experienc
 Our study shows that questioning the competence of a female researcher in online discussions of a news report does not suffice to negatively impact the perceived discussion climate. The threshold of incivility and sexism in online discussions is rather high. The discussion climate in this study was not perceived as hostile above the scale midpoint (*M* =  4.01, *SD* =  1.23, 7-point scale). Furthermore, participation in the comment sections of legacy news media remains low, regardless of gender (*Mdn* = 2), potentially limiting our study’s ability to find effects of sexism on the willingness to disclose in these settings. 
 
 # References
-```{r create_r-references}
-#r_refs(file = "/Users/Rosa/Dropbox/Work in Progress/Sexism_online/sexism_1/poster_mediapsych21_files/ref.bib")
-```
+
 
  
