@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Consequences of Sexism in Political Discussions Online</title>
+
+<script src="poster_mediapsych21_files/header-attrs-2.10/header-attrs.js"></script>
+
+
+
+
+
+
+<!--
+Font-awesome icons ie github or twitter
+-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+
+<!--
+Google fonts api stuff
+-->
+<link href='https://fonts.googleapis.com/css?family=Special Elite' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Rasa' rel='stylesheet'>
+
+<!--
+Here are the required style attributes for css to make this poster work :)
+-->
+<style>
+@page {
+size: 118.9cm 84.1cm;
+margin: 0;
+padding: 0;
+background-color: #ffffff;
+}
+body {
+margin: 0px;
+padding: 0px;
+width: 118.9cm;
+height: 84.1cm;
+text-align: justify;
+font-size: 32px;
+background-color: #FFFFFF;
+color: #000000;
+}
+/* RMarkdown Class Styles */
+/* center align leaflet map,
+from https://stackoverflow.com/questions/52112119/center-leaflet-in-a-rmarkdown-document */
+.html-widget {
+margin: auto;
+position: sticky;
+margin-top: 2cm;
+margin-bottom: 2cm;
+}
+.leaflet.html-widget.html-widget-static-bound.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
+position: sticky;
+width: 100%;
+}
+pre.sourceCode.r, pre.sourceCode.python {
+background-color: #ffffff20;
+border: solid #8b8b8b 1mm;
+border-radius: 0.5em;
+padding: 4mm;
+margin: auto;
+margin-top: 1em;
+margin-bottom: 1em;
+/* align-items: center; */
+}
+div.sourceCode {
+background-color: transparent;
+width: 85%;
+margin-left: auto;
+margin-right: auto;
+}
+code.sourceCode.r, code.sourceCode.python {
+background-color: transparent;
+font-size: 20pt;
+border-radius: 2mm;
+}
+code {
+font-size: 23pt;
+font-family: monospace;
+background-color: #8b8b8b24;
+color: #8b8b8b;
+padding: 1.2mm;
+line-height: 1;
+border-radius: 2mm;
+}
+caption {
+margin-bottom: 10px;
+font-size: 20pt;
+font-style: italic;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ec008a20;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+  border-spacing: 0;
+  font-size: 40%;
+  border-style: none;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 1em;
+  padding-left: 1em;
+  line-height: 1em;
+}
+table {
+  margin: auto;
+}
+th {
+  padding-left: 5mm;
+  padding-right: 5mm;
+}
+.caption {
+font-size: 20pt;
+font-style: italic;
+padding-top: 0;
+}
+.references {
+font-size: 20px;
+line-height: 90%;
+}
+/* Create three unequal columns that floats next to each other */
+.column {
+float: left;
+padding: 0px;
+}
+.outer {
+width: 118.9cm;
+height: 84.1cm;
+-webkit-column-count: 2; /* Chrome, Safari, Opera */
+-moz-column-count: 2; /* Firefox */
+column-count: 2;
+-webkit-column-fill: auto;
+-moz-column-fill: auto;
+column-fill: auto;
+-webkit-column-rule-width: 0.5;
+-moz-column-rule-width: 0.5;
+column-rule-width: 0.5;
+-webkit-column-rule-style: solid;
+-moz-column-rule-style: solid;
+column-rule-style: solid;
+-webkit-column-rule-color: black;
+-moz-column-rule-color: black;
+column-rule-color: black;
+-webkit-column-gap: calc(0.5 * 100%);
+background-color: #ffffff;
+font-family: Rasa;
+color: #000000;
+}
+span.citation {
+  color: #8b8b8b;
+  font-weight: bold;
+}
+a {
+text-decoration: none;
+color: #8b8b8b;
+}
+#title {
+font-size: 100px;
+text-align: left;
+margin: 0;
+line-height: 90%;
+border-bottom: 0;
+}
+#author {
+color: #ec008a;
+margin: 0;
+text-align: left;
+line-height: 65%;
+font-size: 1.17em;
+}
+#affiliation {
+padding-top: 1em;
+color: #00000060;
+font-style: italic;
+font-size: 25px;
+margin: 0;
+}
+sup {
+color: #8b8b8b;
+}
+.affiliation sup {
+font-size: 20px;
+}
+.author sup {
+font-size: 30px;
+}
+.author_extra {
+color: #8b8b8b;
+margin: 0;
+line-height: 85%;
+font-size: 39px;
+}
+.outer h1 {
+text-align: center;
+margin-top: 0.4in;
+margin-bottom: 0.4in;
+}
+.outer h2 {
+text-align: center;
+}
+.outer p {
+color: #000000;
+}
+.outer ol {
+text-align: left;
+}
+.main {
+width: calc(118.9cm * 0.5);
+height: 84.1cm;
+position: absolute;
+margin-left: calc(118.9cm * ((1 - 0.5) / 2));
+background-color: #ec008a;
+color: #FFFFFF90;
+font-family: Special Elite;
+background-image: linear-gradient(#ec008a 40%, #8b8b8b);
+}
+.main strong {
+color: #FFFFFF;
+}
+img.main-img-left {
+width: 20%;
+left: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+img.main-img-right {
+width: 18%;
+right: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+.main p {
+padding-top: 10%;
+font-size: 120px;
+text-align: left;
+}
+.fab {
+color: #00000060;
+font-size: 25px;
+}
+.twitter, i {
+color: #00000060;
+font-size: 35px;
+text-decoration: none;
+}
+a.email {
+text-decoration: none;
+color: #00000060;
+font-size: 35px;
+}
+.envelope {
+color: #00000060;
+font-size: 5px;
+text-decoration: none;
+}
+.globe {
+color: #00000060;
+font-size: 5px;
+text-decoration: none;
+}
+.github > .fab {
+color: #00000060;
+font-size: 40px;
+text-decoration: none;
+}
+.globetext {
+color: #00000060;
+font-size: 35px;
+text-decoration: none;
+}
+.poster_wrap {
+width: 118.9cm;
+height: 84.1cm;
+padding: 0cm;
+background-color: #ffffff;
+}
+span > #tab:mytable {
+  font-weight: bold;
+}
+.section {
+  padding-left: 8mm;
+  padding-right: 8mm;
+}
+.main p {
+  padding-left: 20mm;
+  padding-right: 20mm;
+}
+.main_pic {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.orcid img {
+  width: 3%;
+}
+</style>
+</head>
+<body>
+
+
+<div class="poster_wrap">
+<div class="column outer">
+<br>
+<div class="title section">
+<h1 id="title">Consequences of Sexism in Political Discussions Online</h1>
+<br>
+<h3 id="author" class="author">
+
+Sabine Reich<sup> 1, <a class="orcid" href="https://orcid.org/0000-0002-9474-3635"><img src="https://raw.githubusercontent.com/brentthorne/posterdown/master/images/orcid.jpg"></a> 0000-0002-9474-3635 </sup><br>
+<a class="twitter" href="https://mobile.twitter.com/Malarija"><i class="fab fa-twitter"></i>&nbsp;@Malarija</a> <br>
+
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:sabine.reich@ijk.hmtm-hannover.de" class="email">sabine.reich@ijk.hmtm-hannover.de</a> <br>
+ Marko Bachl<sup> 2, <a class="orcid" href="https://orcid.org/0000-0001-5852-4948"><img src="https://raw.githubusercontent.com/brentthorne/posterdown/master/images/orcid.jpg"></a> 0000-0001-5852-4948</sup><br>
+<a class="twitter" href="https://mobile.twitter.com/Bachl"><i class="fab fa-twitter"></i>&nbsp;@Bachl</a> <br>
+
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:marko.bachl@uni-hohenheim.de" class="email">marko.bachl@uni-hohenheim.de</a> <br>
+</h3>
+
+<h5 id="author_extra" class="author_extra">
+ </h5>
+
+<p id="affiliation" class="affiliation">
+<sup>1</sup> Institute for Journalism and Communication Research, Hanover University of Music, Drama, and Media<br> <sup>2</sup> Department of Communication, University of Hohenheim
+</p>
+
+</div>
+<div id="objective" class="section level1">
+<h1>Objective</h1>
+<p>Female politicians <span class="citation">(Rheault et al., 2019)</span> and journalists <span class="citation">(Gardiner, 2018)</span> become the target of online incivility more frequently compared to their male colleagues and women report negative reactions to sharing political opinions online <span class="citation">(Koc-Michalska et al., 2019; Sobieraj, 2018; Vochocová, 2018)</span>. In a <code>preregistered experiment</code> we investigate how incivility through sexist user commentary against women affects the willingness of political expression in online environments for women compared to men. Based on the <code>theory of normative social behavior</code> <span class="citation">(Rimal &amp; Real, 2005)</span>, we assume that sexist comments in online environments help to establish <code>descriptive norms</code> and the <code>injunctive norms</code> of the online culture by suggesting that women have to expect consequences when voicing their opinions.</p>
+<p>We predicted that reading sexist comments (vs. benign comments) in political discussions online decreases women’s likelihood to participate <code>(H1a)</code> and to share their own opinion <code>(H1b)</code> and the decrease is larger for women than for men, further increases the expected sanctions for women and the increase is larger for women compared to men <code>(H2)</code>, decreases the perceived competence for women but not for men <code>(H3)</code>.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<p>To test the hypothesis we designed a 2 (sexist vs. benign comment) X 2 (self-reported binary gender) <code>online (quasi-)experiment</code>. A quota-sample (gender, age, and education) of the German online population was recruited (<em>N</em> = 750, <em>M</em> = 44.6, <em>SD</em> = 14.3, 50% female) by a commercial online access panel. We estimated <code>a priori power</code> at 76% for small (<em>d</em> = 0.2) and at 99.99% for medium effects (<em>d</em> = 0.5).</p>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<div id="treatment-checks" class="section level2">
+<h2>Treatment checks</h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figures-side"></span>
+<img src="poster_mediapsych21_files/figure-html/figures-side-1.png" alt="Treatment checks" width="50%" /><img src="poster_mediapsych21_files/figure-html/figures-side-2.png" alt="Treatment checks" width="50%" />
+<p class="caption">
+Figure 1: Treatment checks
+</p>
+</div>
+</div>
+<div id="hypotheses-tests" class="section level2">
+<h2>Hypotheses tests</h2>
+<p><strong>H1a</strong> (<span class="math inline">\(R^2 = &lt; .01\)</span>, 90% CI <span class="math inline">\([0.00\)</span>, <span class="math inline">\(0.01]\)</span>, <span class="math inline">\(F(3, 746) = 1.20\)</span>, <span class="math inline">\(p = .309\)</span>) and <strong>H1b</strong> (<span class="math inline">\(R^2 = &lt; .01\)</span>, 90% CI <span class="math inline">\([0.00\)</span>, <span class="math inline">\(0.01]\)</span>, <span class="math inline">\(F(3, 746) = 0.98\)</span>, <span class="math inline">\(p = .402\)</span>) were <code>not supported</code> by our data.</p>
+<p><strong>H2</strong> was <code>not supported</code> by our data, although we saw an expected main effect (cp. Figure 2) of the sexist attack (<span class="math inline">\(b = 0.43\)</span>, 95% CI <span class="math inline">\([0.22\)</span>, <span class="math inline">\(0.65]\)</span>, <span class="math inline">\(t(746) = 4.01\)</span>, <span class="math inline">\(p &lt; .001\)</span>, <span class="math inline">\(R^2 = .02\)</span>, 90% CI <span class="math inline">\([0.01\)</span>, <span class="math inline">\(0.04]\)</span>, <span class="math inline">\(F(3, 746) = 5.43\)</span>, <span class="math inline">\(p = .001\)</span>).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="poster_mediapsych21_files/figure-html/unnamed-chunk-5-1.png" alt="H2 Expected sanctions" width="80%" />
+<p class="caption">
+Figure 2: H2 Expected sanctions
+</p>
+</div>
+<p><strong>H3</strong> was <code>not supported</code> by our data (<span class="math inline">\(R^2 = .01\)</span>, 90% CI <span class="math inline">\([0.00\)</span>, <span class="math inline">\(0.01]\)</span>, <span class="math inline">\(F(3, 746) = 1.47\)</span>, <span class="math inline">\(p = .221\)</span>).</p>
+</div>
+<div id="exploration-of-hostile-experiences-by-age-and-sex" class="section level2">
+<h2>Exploration of hostile experiences by age and sex</h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
+<img src="poster_mediapsych21_files/figure-html/unnamed-chunk-7-1.png" alt="Prevalence of hostile behaviors experienced and observed" width="100%" />
+<p class="caption">
+Figure 3: Prevalence of hostile behaviors experienced and observed
+</p>
+</div>
+<p>We preregistered a general survey of the prevalence and found that the experiences of women differ from men’s and that especially the younger population notices online harassment.</p>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>Our study shows that questioning the competence of a female researcher in online discussions of a news report does not suffice to negatively impact the perceived discussion climate. The threshold of incivility and sexism in online discussions is rather high. The discussion climate in this study was not perceived as hostile above the scale midpoint (<em>M</em> = 4.01, <em>SD</em> = 1.23, 7-point scale). Furthermore, participation in the comment sections of legacy news media remains low, regardless of gender (<em>Mdn</em> = 2), potentially limiting our study’s ability to find effects of sexism on the willingness to disclose in these settings.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-gardiner_its_2018" class="csl-entry">
+Gardiner, B. (2018). <span>“<span>It</span>’s a terrible way to go to work:”</span> What 70 million readers’ comments on the <span>Guardian</span> revealed about hostility to women and minorities online. <em>Feminist Media Studies</em>, <em>18</em>(4), 592–608. <a href="https://doi.org/10.1080/14680777.2018.1447334">https://doi.org/10.1080/14680777.2018.1447334</a>
+</div>
+<div id="ref-koc-michalska_online_2019" class="csl-entry">
+Koc-Michalska, K., Schiffrin, A., Lopez, A., Boulianne, S., &amp; Bimber, B. (2019). From online political posting to mansplaining: <span>The</span> gender gap and social media in political discussion. <em>Social Science Computer Review</em>, Advance online publication. <a href="https://doi.org/10.1177/0894439319870259">https://doi.org/10.1177/0894439319870259</a>
+</div>
+<div id="ref-rheault_politicians_2019" class="csl-entry">
+Rheault, L., Rayment, E., &amp; Musulan, A. (2019). Politicians in the line of fire: <span>Incivility</span> and the treatment of women on social media. <em>Research &amp; Politics</em>, Advance online publication. <a href="https://doi.org/10.1177/2053168018816228">https://doi.org/10.1177/2053168018816228</a>
+</div>
+<div id="ref-rimal_how_2005" class="csl-entry">
+Rimal, R. N., &amp; Real, K. (2005). How behaviors are influenced by perceived norms: <span>A</span> test of the theory of normative social behavior. <em>Communication Research</em>, <em>32</em>(3), 389–414. <a href="https://doi.org/10.1177/0093650205275385">https://doi.org/10.1177/0093650205275385</a>
+</div>
+<div id="ref-sobieraj_bitch_2018" class="csl-entry">
+Sobieraj, S. (2018). Bitch, slut, skank, cunt: Patterned resistance to women’s visibility in digital publics. <em>Information, Communication &amp; Society</em>, <em>21</em>(11), 1700–1714. <a href="https://doi.org/10.1080/1369118X.2017.1348535">https://doi.org/10.1080/1369118X.2017.1348535</a>
+</div>
+<div id="ref-vochocova_witty_2018" class="csl-entry">
+Vochocová, L. (2018). Witty divas, nice mothers and tough girls in a sexist world: Experiences and strategies of female influencers in online political debates. <em>Media, Culture &amp; Society</em>, <em>40</em>(4), 535–550. <a href="https://doi.org/10.1177/0163443717729211">https://doi.org/10.1177/0163443717729211</a>
+</div>
+</div>
+</div>
+
+</div>
+<div class="main">
+<p><img src="poster_mediapsych21_files/Badges.png" class="main_pic" /><br><br> <strong>Sexism</strong> had no effect on participation in political discussions online or expected sanctions. <br> <br> Accounts of <strong>online harassment</strong> are higher among <strong>younger</strong> and <strong>female</strong> German onliners.</p>
+<img src="poster_mediapsych21_files/QR.png" class="main-img-left" />
+<img src="https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png" class="main-img-right" />
+</div>
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+var script = document.createElement("script");
+script.type = "text/javascript";
+var src = "true";
+if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+if (location.protocol !== "file:" && /^https?:/.test(src))
+src = src.replace(/^https?:/, '');
+script.src = src;
+document.getElementsByTagName("head")[0].appendChild(script);
+})();
+</script>
+
+
+</body>
+</html>
