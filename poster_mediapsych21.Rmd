@@ -18,20 +18,22 @@ affiliation:
     address: Institute for Journalism and Communication Research, Hanover University of Music, Drama, and Media
   - num: 2
     address: Department of Communication, University of Hohenheim
+poster_height: "84.1cm"
+poster_width: "118.9cm"
 main_textsize: 120px
 title_textsize: 100px
 body_textsize: 32px
-authorextra_textsize: 40px
-reference_textsize: 16px
-column_padding: 10mm
-primary_colour: "#E52E7F"
-secondary_colour: "#7F7F7F"
+authorextra_textsize: 39px
+reference_textsize: 20px
+column_padding: 8mm
+primary_colour: "#ec008a"
+secondary_colour: "#8b8b8b"
 accent_colour: "#D5106A"
 main_width: 0.5
 main_findings:
-  - '![](/poster_mediapsych21_files/badges.png){.main_pic}'
-  - "**Sexism** had no effect on participation in political discussions online or expected sanctions. Accounts of **online harassment** are higher among **younger** and **female** German onliners."
-logoleft_name: '![](/poster_mediapsych21_files/QR.png){.main-img-left}'
+  - '![](/Users/Rosa/Google Drive/Sexismus_Onlinediskussionen/Experiment_1/Publication/MediaPsych21/poster_mediapsych21_files/badges.png){.main_pic}'
+  - "**Sexism** had no effect on participation in political discussions online or expected sanctions. <br> <br> Accounts of **online harassment** are higher among **younger** and **female** German onliners."
+logoleft_name: '![](/Users/Rosa/Google Drive/Sexismus_Onlinediskussionen/Experiment_1/Publication/MediaPsych21/poster_mediapsych21_files/QR.png){.main-img-left}'
 logoright_name: '![](https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png){.main-img-right}'
 output: 
   posterdown::posterdown_betterland:
@@ -188,14 +190,17 @@ m_h1b %>%
 
 **H1a** (`r m_h1a_apa$full_result$modelfit$r2`) and **H1b** (`r m_h1b_apa$full_result$modelfit$r2`) were `not supported` by our data.
 
-```{r, fig.cap="H2: Expected sanctions", fig.dim = c(3, 2), fig.align = "center", out.width="80%", out.hight="80%", include=TRUE}
+```{r}
 m_h2 = lm(DV_expected_sanctions ~ pa_female * attack, data = zap_labels(d))
 m_h2_apa = m_h2 %>% apa_print()
+```
+
+**H2** was `not supported` by our data, although we saw an expected main effect (cp. Figure 2) of the sexist attack (`r m_h2_apa$full_result$attack`, `r m_h2_apa$full_result$modelfit$r2`).
+
+```{r, fig.cap="H2 Expected sanctions", fig.dim = c(3, 2), fig.align = "center", out.width="80%", out.hight="80%", include=TRUE}
 m_h2 %>% 
   plot_model(type = "int", title = "", axis.title = c("Participant gender", "Expected sanctions"), show.legend = TRUE, line.size = 0.50, dot.size = 1) + theme(text = element_text(size = 8), legend.spacing.y = unit(0, "mm"))
 ```
-
-**H2** was `not supported` by our data, although we saw an expected main effect of the sexist attack (`r m_h2_apa$full_result$attack`, `r m_h2_apa$full_result$modelfit$r2`).
 
 ```{r, fig.cap="H3: Perceived competence", fig.width=3, fig.height=2, include=FALSE}
 m_h3 = lm(DV_perceived_competence ~ pa_female * attack, data = zap_labels(d))
@@ -212,7 +217,7 @@ m_h3 %>%
 **H3** was `not supported` by our data (`r m_h3_apa$full_result$modelfit$r2`).
 
 ## Exploration of hostile experiences by age and sex
-```{r, fig.cap="Prevalence of hostile behaviors experienced and observed", fig.width=7, fig.height=6}
+```{r, fig.cap="Prevalence of hostile behaviors experienced and observed", fig.width=8, fig.height=9}
   # Experiences with hostile online behaviors
   # labels
 hostility_labels = d %>% 
